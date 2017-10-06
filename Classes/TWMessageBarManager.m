@@ -26,9 +26,9 @@ CGFloat const kTWMessageBarManagerPanVelocity = 0.2f;
 CGFloat const kTWMessageBarManagerPanAnimationDuration = 0.0002f;
 
 // Strings (TWMessageBarStyleSheet)
-NSString * const kTWMessageBarStyleSheetImageIconError = @"icon-error.png";
-NSString * const kTWMessageBarStyleSheetImageIconSuccess = @"icon-success.png";
-NSString * const kTWMessageBarStyleSheetImageIconInfo = @"icon-info.png";
+NSString * const kTWMessageBarStyleSheetImageIconError = @"icon-error";
+NSString * const kTWMessageBarStyleSheetImageIconSuccess = @"icon-success";
+NSString * const kTWMessageBarStyleSheetImageIconInfo = @"icon-info";
 
 // Fonts (TWMessageView)
 static UIFont *kTWMessageViewTitleFont = nil;
@@ -806,21 +806,27 @@ static UIColor *kTWDefaultMessageBarStyleSheetInfoStrokeColor = nil;
 
 - (nonnull UIImage *)iconImageForMessageType:(TWMessageBarMessageType)type
 {
-    UIImage *iconImage = nil;
-    switch (type)
-    {
-        case TWMessageBarMessageTypeError:
-            iconImage = [UIImage imageNamed:kTWMessageBarStyleSheetImageIconError];
-            break;
-        case TWMessageBarMessageTypeSuccess:
-            iconImage = [UIImage imageNamed:kTWMessageBarStyleSheetImageIconSuccess];
-            break;
-        case TWMessageBarMessageTypeInfo:
-            iconImage = [UIImage imageNamed:kTWMessageBarStyleSheetImageIconInfo];
-            break;
-    }
-    return iconImage;
+  UIImage *iconImage = nil;
+  NSBundle *frameworkBundle = [NSBundle bundleForClass:[TWMessageBarManager class]];
+  NSString *resourcePath;
+  switch (type)
+  {
+    case TWMessageBarMessageTypeError:
+      resourcePath = [frameworkBundle pathForResource:kTWMessageBarStyleSheetImageIconError ofType:@"png"];
+      iconImage = [UIImage imageWithContentsOfFile:resourcePath];
+      break;
+    case TWMessageBarMessageTypeSuccess:
+      resourcePath = [frameworkBundle pathForResource:kTWMessageBarStyleSheetImageIconSuccess ofType:@"png"];
+      iconImage = [UIImage imageWithContentsOfFile:resourcePath];
+      break;
+    case TWMessageBarMessageTypeInfo:
+      resourcePath = [frameworkBundle pathForResource:kTWMessageBarStyleSheetImageIconInfo ofType:@"png"];
+      iconImage = [UIImage imageWithContentsOfFile:resourcePath];
+      break;
+  }
+  return iconImage;
 }
+
 
 @end
 
